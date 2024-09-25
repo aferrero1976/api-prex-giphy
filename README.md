@@ -9,7 +9,6 @@ Este repositorio contiene la solución al desafío enviado por Prex para cubrir 
 
 
 ### Requerimientos para su ejecución
-* PHP v8+
 * Git v2+
 * Docker Compose v2+
 
@@ -28,6 +27,26 @@ Este repositorio contiene la solución al desafío enviado por Prex para cubrir 
 - ```GET  api/gifs/search``` | **privada** | *Búsqueda de GIFS, integrando API de GIPHY*
 - ```GET  api/gifs/{id}``` | **privada** | *Recuperar un GIF identificado, integrando API de GIPHY*
 - ```POST api/gifs/favorite``` | **privada** | *Agregar a favoritos del usuario un GIF específico*
+
+### Diagramas de Casos de Uso
+El mismo se encuentra en [api-prex-giphy-diagrama-casos-uso](uml/api-prex-giphy-diagrama-casos-uso.png)
+
+### Diagrama de Secuencias
+El mismo se encuentra en [api-prex-giphy-diagrama-secuencia](uml/api-prex-giphy-diagrama-secuencia.png)
+
+### Diagrama Entidad-Relación (DER)
+El mismo se encuentra en [api_prex_giphy_der](uml/api_prex_giphy_der.png)
+
+
+### Registro de interacción
+
+Se utilizó el archivo del framework [(storage/logs/laravel.log)](storage/logs/laravel.log) para registrar todas las interacciones con las rutas del API según lo especificado:
+- Usuario que realizo la petición.
+- Servicio consultado.
+- Cuerpo de la petición.
+- Código HTTP de la respuesta.
+- Cuerpo de la respuesta.
+- IP de origen de la consulta.
 
 ## Instalación y ejecución
 
@@ -55,27 +74,10 @@ docker-compose up -d --build
 
 *Aclaración: en el caso de que el proyecto no esté disponible, podría deberse a que el contenedor de Base de Datos no estaba listo al ejecutar las migraciones, por lo que se debería ejecutar manualmente los siguientes comandos:*
 ```
-docker exec -it api_prex_giphy_php php artisan migrate
+docker exec -it api_prex_giphy_php php artisan migrate:refresh
 docker exec -it api_prex_giphy_php php artisan serve
 ```
 Esto construirá las imágenes y levantará los contenedores en segundo plano, aplicación y base de datos, y el proyecto estará disponible en http://localhost:8000/
-
-### Diagramas de Casos de Uso
-
-
-### Diagrama Entidad-Relación (DER)
-
-
-### Registro de interacción
-
-Se utilizó el archivo del framework [(storage/logs/laravel.log)](storage/logs/laravel.log) para registrar todas las interacciones con las rutas del API según lo especificado:
-- Usuario que realizo la petición.
-- Servicio consultado.
-- Cuerpo de la petición.
-- Código HTTP de la respuesta.
-- Cuerpo de la respuesta.
-- IP de origen de la consulta.
-
 
 ## Postman
 
@@ -83,3 +85,15 @@ Se brindan 2 archivos para simular la interacción de un Cliente HTTP con la API
 - [Environment](postman/api-prex-giphy-dev.postman_environment.json)
 - [Collection](postman/Api-Prex-Giphy.postman_collection.json)
 
+
+
+## Pruebas
+
+Los **Tests Feature** se encuentran en [ApiRoutesTest.php](tests/Feature/ApiRoutesTest.php) en donde se pueden probar las distintas rutas del API:
+```
+docker exec -it api_prex_giphy_php php artisan test --filter test_user_can_register
+docker exec -it api_prex_giphy_php php artisan test --filter test_user_can_login
+docker exec -it api_prex_giphy_php php artisan test --filter test_user_can_favorite_gif
+docker exec -it api_prex_giphy_php php artisan test --filter test_user_can_search_gifs
+docker exec -it api_prex_giphy_php php artisan test --filter test_user_can_show_gif
+```
