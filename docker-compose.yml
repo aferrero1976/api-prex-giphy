@@ -1,0 +1,39 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: api-prex-giphy-app
+    container_name: api_prex_giphy_php
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    command: ["sh", "-c", "./wait-for-db.sh db ./art-migrate.sh"]
+    networks:
+      - api-prex-giphy-network
+
+  db:
+    image: mariadb:latest
+    container_name: api_prex_giphy_mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - '3306:3306'
+    volumes:
+      - db_data:/var/lib/mariadb
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - api-prex-giphy-network
+
+volumes:
+  db_data:
+
+networks:
+  api-prex-giphy-network:
