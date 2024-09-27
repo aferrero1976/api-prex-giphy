@@ -52,7 +52,7 @@ Se utilizó el archivo del framework [(storage/logs/laravel.log)](storage/logs/l
 
 1. Clonar este proyecto
 ```bash
-git clone git@github.com:aferrero1976/api-prex-giphy.git
+git clone https://github.com/aferrero1976/api-prex-giphy.git
 ```
 
 2. Ingresar a la carpeta del proyecto
