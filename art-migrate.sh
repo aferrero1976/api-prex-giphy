@@ -1,7 +1,9 @@
 #!/bin/bash
 
-# Ejecutar migraciones de Laravel
-php artisan migrate
+php artisan key:generate
 
-# Iniciar el servidor PHP
-php artisan serve
+php artisan migrate:fresh
+
+php artisan passport:install --force --no-interaction
+
+php artisan serve --host 0.0.0.0 --port=8000
